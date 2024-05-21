@@ -1,26 +1,36 @@
-import os
+import os, sys
 
 class TicTacToe:
     """
         A python program to emulate a cli-based version of
         the classical TicTacToe game.
+        
+        Bugs:
+        - A player can enter an already picked slot
+        - A player can enter invalid data without a warning
+        
+        
+        Planned features:
+        - Pick between PvP and PvE mode
+        - PvE mode: play vs the environment
+        - In-game menu
     """
-    def __init__(self, player_one, player_two):
+    def __init__(self, player_one="X", player_two="O"):
         # Class constructor
         self.player_one = player_one
         self.player_two = player_two
         self.user_choice = ""
         
         self.grid_dict = {
-            "x1": "x1",
-            "x2": "x2",
-            "x3": "x3",
-            "y1": "y1",
-            "y2": "y2",
-            "y3": "y3",
-            "z1": "z1",
-            "z2": "z2",
-            "z3": "z3",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
         }
 
     def clear_screen(self):
@@ -35,13 +45,13 @@ class TicTacToe:
     def display_grid(self):
         # Displays the current TicTacToe grid
         player_map = f"""
-┌────┬────┬────┐
-│ {self.grid_dict["x1"]} │ {self.grid_dict["x2"]} │ {self.grid_dict["x3"]} │
-│────┼────┼────│
-│ {self.grid_dict["y1"]} │ {self.grid_dict["y2"]} │ {self.grid_dict["y3"]} │
-│────┼────┼────│
-│ {self.grid_dict["z1"]} │ {self.grid_dict["z2"]} │ {self.grid_dict["z3"]} │
-└────┴────┴────┘
+┌───┬───┬───┐
+│ {self.grid_dict["1"]} │ {self.grid_dict["2"]} │ {self.grid_dict["3"]} │
+│───┼───┼───│
+│ {self.grid_dict["4"]} │ {self.grid_dict["5"]} │ {self.grid_dict["6"]} │
+│───┼───┼───│
+│ {self.grid_dict["7"]} │ {self.grid_dict["9"]} │ {self.grid_dict["9"]} │
+└───┴───┴───┘
     """
         print(player_map)
 
@@ -49,18 +59,18 @@ class TicTacToe:
     def current_game_status(self):
         # A tuple with all winning combinations
         winning_combinations = [
-            ("x1", "x2", "x3"),
-            ("y1", "y2", "y3"),
-            ("z1", "z2", "z3"),
-            ("x1", "y1", "z1"),
-            ("x2", "y2", "z2"),
-            ("x3", "y3", "z3"),
-            ("x1", "y2", "z3"),
-            ("x3", "y2", "z1"),
+            ("1", "2", "3"),
+            ("4", "5", "6"),
+            ("7", "8", "9"),
+            ("1", "4", "7"),
+            ("2", "5", "8"),
+            ("3", "6", "9"),
+            ("1", "5", "9"),
+            ("3", "5", "9"),
         ]
         
         # Check both X and O
-        for symbol in [" X", " O"]:
+        for symbol in ["X", "O"]:
             # Check each winning_combination
             for combination in winning_combinations:
                 # if all the values are either X or O, a winning condition is met
@@ -72,7 +82,7 @@ class TicTacToe:
     
     def display_winner(self, winning_player):
         # Clear screen and display result
-        if winning_player == " X":
+        if winning_player == "X":
             winning_player = self.player_one
         else:
             winning_player = self.player_two
@@ -84,15 +94,15 @@ class TicTacToe:
 
         # return grid_dict to original state
         self.grid_dict = {
-            "x1": "x1",
-            "x2": "x2",
-            "x3": "x3",
-            "y1": "y1",
-            "y2": "y2",
-            "y3": "y3",
-            "z1": "z1",
-            "z2": "z2",
-            "z3": "z3",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
         }
 
         user_prior_choice = self.user_choice
@@ -103,10 +113,36 @@ class TicTacToe:
         
         if self.user_choice != "q":
             pass
+    
+    def game_menu():
+        pass
 
     def start_game(self):
-        print("Welcome to TicTacToe!")
-    
+        
+        tictactoe_ascii = r"""
+Welcome to
+
+ ______  ____   __        ______   ____    __        ______   ___     ___ 
+|      ||    | /  ]      |      | /    |  /  ]      |      | /   \   /  _]
+|      | |  | /  / _____ |      ||  X  | /  / _____ |      ||     | /  [_ 
+|_|  |_| |  |/  / |     ||_|  |_||     |/  / |     ||_|  |_||  O  ||    _]
+  |  |   |  /   \_|_____|  |  |  |  _  /   \_|_____|  |  |  |     ||   [_ 
+  |  |   |  \     |        |  |  |  |  \     |        |  |  |     ||     |
+  |__|  |____\____|        |__|  |__|__|\____|        |__|   \___/ |_____|
+                                                                          
+"""
+        print(tictactoe_ascii)
+        print("1. New Game")
+        print("2. Player Selection")
+        print("3. Exit")
+        user_input = input("Enter menu selection (1-3): ")
+        
+        if user_input == "3":
+            self.user_choice = "q"
+        if user_input == "2":
+            self.player_one = input("Player 1 (X) set name: ")
+            self.player_two = input("Player 2 (O) set name: ")
+            
         while self.user_choice != "q":
             
             # Player 1 turn
@@ -123,7 +159,7 @@ class TicTacToe:
                 self.display_grid()
                 break
             
-            self.grid_dict[f"{self.user_choice}"] = " X"
+            self.grid_dict[f"{self.user_choice}"] = "X"
             
             # Eval game status after player 1 turn
             self.current_game_status()
@@ -144,7 +180,7 @@ class TicTacToe:
                 self.display_grid()
                 break
 
-            self.grid_dict[f"{self.user_choice}"] = " O"
+            self.grid_dict[f"{self.user_choice}"] = "O"
             self.display_grid()
             
             # Eval game status after player 2 turn
@@ -152,8 +188,6 @@ class TicTacToe:
             if self.user_choice == "q":
                 break
 
-ask_player_one = input("Enter Name - Player One: ")
-ask_player_two = input("Enter Name - Player Two: ")
 
-game_of_tictactoe = TicTacToe(player_one=ask_player_one, player_two=ask_player_two)
+game_of_tictactoe = TicTacToe()
 game_of_tictactoe.start_game()
