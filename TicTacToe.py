@@ -1,10 +1,5 @@
 import os
 
-"""
-    TODO:
-    - Encapsulate more in the loop
-"""
-
 class TicTacToe:
     """
         A python program to emulate a cli-based version of
@@ -29,7 +24,11 @@ class TicTacToe:
         }
 
     def clear_screen(self):
-        os.system('clear')
+        if os.name == 'nt':
+            os.system('cls')
+        else:
+            os.system('clear')
+
 
 
     def display_grid(self):
