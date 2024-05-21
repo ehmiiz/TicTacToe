@@ -24,6 +24,7 @@ class TicTacToe:
         }
 
     def clear_screen(self):
+        # Clears the screen, supports nt and unix
         if os.name == 'nt':
             os.system('cls')
         else:
@@ -32,7 +33,7 @@ class TicTacToe:
 
 
     def display_grid(self):
-        # The player map
+        # Displays the current TicTacToe grid
         player_map = f"""
 ┌────┬────┬────┐
 │ {self.grid_dict["x1"]} │ {self.grid_dict["x2"]} │ {self.grid_dict["x3"]} │
@@ -46,60 +47,32 @@ class TicTacToe:
 
     
     def current_game_status(self):
-        # Player one ruleset
-        if self.grid_dict["x1"] == " X" and self.grid_dict["x2"] == " X" and self.grid_dict["x3"] == " X":
-            self.display_winner(winning_player="X")
+        # A tuple with all winning combinations
+        winning_combinations = [
+            ("x1", "x2", "x3"),
+            ("y1", "y2", "y3"),
+            ("z1", "z2", "z3"),
+            ("x1", "y1", "z1"),
+            ("x2", "y2", "z2"),
+            ("x3", "y3", "z3"),
+            ("x1", "y2", "z3"),
+            ("x3", "y2", "z1"),
+        ]
+        
+        # Check both X and O
+        for symbol in [" X", " O"]:
+            # Check each winning_combination
+            for combination in winning_combinations:
+                # if all the values are either X or O, a winning condition is met
+                if all(self.grid_dict[pos] == symbol for pos in combination):
+                    self.display_winner(winning_player=symbol)
+                    return
 
-        if self.grid_dict["y1"] == " X" and self.grid_dict["y2"] == " X" and self.grid_dict["y3"] == " X":
-            self.display_winner(winning_player="X")
-        
-        if self.grid_dict["z1"] == " X" and self.grid_dict["z2"] == " X" and self.grid_dict["z3"] == " X":
-            self.display_winner(winning_player="X")
-        
-        if self.grid_dict["x1"] == " X" and self.grid_dict["y1"] == " X" and self.grid_dict["z1"] == " X":
-            self.display_winner(winning_player="X")
-        
-        if self.grid_dict["x2"] == " X" and self.grid_dict["y2"] == " X" and self.grid_dict["z2"] == " X":
-            self.display_winner(winning_player="X")
-            
-        if self.grid_dict["x3"] == " X" and self.grid_dict["y3"] == " X" and self.grid_dict["z3"] == " X":
-            self.display_winner(winning_player="X")
-        
-        if self.grid_dict["x1"] == " X" and self.grid_dict["y2"] == " X" and self.grid_dict["z3"] == " X":
-            self.display_winner(winning_player="X")
-        
-        if self.grid_dict["x3"] == " X" and self.grid_dict["y2"] == " X" and self.grid_dict["z1"] == " X":
-            self.display_winner(winning_player="X")
-        
-        # Player two ruleset
-        if self.grid_dict["x1"] == " O" and self.grid_dict["x2"] == " O" and self.grid_dict["x3"] == " O":
-            self.display_winner(winning_player="O")
-
-        if self.grid_dict["y1"] == " O" and self.grid_dict["y2"] == " O" and self.grid_dict["y3"] == " O":
-            self.display_winner(winning_player="O")
-        
-        if self.grid_dict["z1"] == " O" and self.grid_dict["z2"] == " O" and self.grid_dict["z3"] == " O":
-            self.display_winner(winning_player="O")
-        
-        if self.grid_dict["x1"] == " O" and self.grid_dict["y1"] == " O" and self.grid_dict["z1"] == " O":
-            self.display_winner(winning_player="O")
-        
-        if self.grid_dict["x2"] == " O" and self.grid_dict["y2"] == " O" and self.grid_dict["z2"] == " O":
-            self.display_winner(winning_player="O")
-            
-        if self.grid_dict["x3"] == " O" and self.grid_dict["y3"] == " O" and self.grid_dict["z3"] == " O":
-            self.display_winner(winning_player="O")
-        
-        if self.grid_dict["x1"] == " O" and self.grid_dict["y2"] == " O" and self.grid_dict["z3"] == " O":
-            self.display_winner(winning_player="O")
-        
-        if self.grid_dict["x3"] == " O" and self.grid_dict["y2"] == " O" and self.grid_dict["z1"] == " O":
-            self.display_winner(winning_player="O")
     
     
     def display_winner(self, winning_player):
         # Clear screen and display result
-        if winning_player == "X":
+        if winning_player == " X":
             winning_player = self.player_one
         else:
             winning_player = self.player_two
