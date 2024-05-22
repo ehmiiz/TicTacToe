@@ -75,7 +75,11 @@ class TicTacToe:
                     self.display_winner(winning_player=symbol)
                     return
 
-    
+    def display_scoreboard(self):
+        """
+            Create a /tmp json file to store the scoreboard in
+        """
+        pass
     
     def display_winner(self, winning_player):
         # Clear screen and display result
