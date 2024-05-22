@@ -50,7 +50,7 @@ class TicTacToe:
 │───┼───┼───│
 │ {self.grid_dict["4"]} │ {self.grid_dict["5"]} │ {self.grid_dict["6"]} │
 │───┼───┼───│
-│ {self.grid_dict["7"]} │ {self.grid_dict["9"]} │ {self.grid_dict["9"]} │
+│ {self.grid_dict["7"]} │ {self.grid_dict["8"]} │ {self.grid_dict["9"]} │
 └───┴───┴───┘
     """
         print(player_map)
