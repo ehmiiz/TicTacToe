@@ -1,4 +1,4 @@
-import os, sys
+import os
 
 class TicTacToe:
     """
@@ -6,13 +6,12 @@ class TicTacToe:
         the classical TicTacToe game.
         
         Bugs:
-        - A player can enter an already picked slot
-        - A player can enter invalid data without a warning
-        
-        
+            ...
+            
         Planned features:
         - Pick between PvP and PvE mode
         - PvE mode: play vs the environment
+        - Scoreboard
     """
     def __init__(self, player_one="X", player_two="O"):
         # Class constructor
@@ -196,7 +195,3 @@ Welcome to
                 player_two_bad_choice = 0
 
             self.display_grid()
-
-
-game_of_tictactoe = TicTacToe()
-game_of_tictactoe.start_game()
