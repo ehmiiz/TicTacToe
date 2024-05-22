@@ -13,7 +13,6 @@ class TicTacToe:
         Planned features:
         - Pick between PvP and PvE mode
         - PvE mode: play vs the environment
-        - In-game menu
     """
     def __init__(self, player_one="X", player_two="O"):
         # Class constructor
@@ -39,7 +38,6 @@ class TicTacToe:
             os.system('cls')
         else:
             os.system('clear')
-
 
 
     def display_grid(self):
@@ -89,6 +87,7 @@ class TicTacToe:
             
         self.clear_screen()
         print(f"{winning_player} was victorious!")
+        print("Well played.")
         print("Hit [Enter] to play again. Type [q] and hit enter to quit.")
         self.display_grid()
 
@@ -105,20 +104,11 @@ class TicTacToe:
             "9": "9",
         }
 
-        user_prior_choice = self.user_choice
         self.user_choice = input("Your choice: ")
-        
-        if self.user_choice == user_prior_choice:
-            print(self.user_choice)
-        
-        if self.user_choice != "q":
-            pass
+        self.clear_screen()
+        print("Well, here we go again!\nGood luck and have fun.")
     
-    def game_menu():
-        pass
-
-    def start_game(self):
-        
+    def game_menu(self):
         tictactoe_ascii = r"""
 Welcome to
 
@@ -129,7 +119,6 @@ Welcome to
   |  |   |  /   \_|_____|  |  |  |  _  /   \_|_____|  |  |  |     ||   [_ 
   |  |   |  \     |        |  |  |  |  \     |        |  |  |     ||     |
   |__|  |____\____|        |__|  |__|__|\____|        |__|   \___/ |_____|
-                                                                          
 """
         print(tictactoe_ascii)
         print("1. New Game")
@@ -137,19 +126,36 @@ Welcome to
         print("3. Exit")
         user_input = input("Enter menu selection (1-3): ")
         
-        if user_input == "3":
+        if user_input == "3" or user_input == "q":
             self.user_choice = "q"
         if user_input == "2":
             self.player_one = input("Player 1 (X) set name: ")
             self.player_two = input("Player 2 (O) set name: ")
-            
+        
+    def start_game(self):
+        self.clear_screen()
+        self.game_menu()
+        player_two_bad_choice = "local variable"
         while self.user_choice != "q":
             
             # Player 1 turn
             self.clear_screen()
-            print(f"{self.player_one}'s turn.")
             print("enter 'q' to quit")
+            if player_two_bad_choice == "local variable":
+                print(f"First round! Good look and have fun.")
             
+            if player_two_bad_choice == 1:
+                print("Number is already taken.")
+            elif player_two_bad_choice == 0:
+                print(f"{self.player_two} picked {self.user_choice}.")
+                self.grid_dict[f"{self.user_choice}"] = "O"
+                # Eval game status after player 2 turn
+                self.current_game_status()
+                if self.user_choice == "q":
+                    self.clear_screen()
+                    break
+            
+            print(f"{self.player_one}'s turn.")
             self.display_grid()
             
             self.user_choice = input("Place your X: ")
@@ -158,20 +164,24 @@ Welcome to
                 print("Game ended.")
                 self.display_grid()
                 break
+
+            # Player 2 turn
+            self.clear_screen()
+            print("enter 'q' to quit")
             
-            self.grid_dict[f"{self.user_choice}"] = "X"
-            
+            if self.grid_dict[f"{self.user_choice}"] == "X" or self.grid_dict[f"{self.user_choice}"] == "O":
+                print("Number is already taken.")
+            else:
+                print(f"{self.player_one} picked {self.user_choice}.")
+                self.grid_dict[f"{self.user_choice}"] = "X"
+
             # Eval game status after player 1 turn
             self.current_game_status()
             if self.user_choice == "q":
                 break
-
-            # Player 2 turn
-            self.clear_screen()
-            print(f"{self.player_two} turn.")
-            print("enter 'q' to quit")
-            self.display_grid()
             
+            print(f"{self.player_two}'s turn.")
+            self.display_grid()
             self.user_choice = input("Place your O: ")
             
             if self.user_choice == "q":
@@ -179,14 +189,13 @@ Welcome to
                 print("Game ended.")
                 self.display_grid()
                 break
-
-            self.grid_dict[f"{self.user_choice}"] = "O"
-            self.display_grid()
             
-            # Eval game status after player 2 turn
-            self.current_game_status()
-            if self.user_choice == "q":
-                break
+            if self.grid_dict[f"{self.user_choice}"] == "X" or self.grid_dict[f"{self.user_choice}"] == "O":
+                player_two_bad_choice = 1
+            else:
+                player_two_bad_choice = 0
+
+            self.display_grid()
 
 
 game_of_tictactoe = TicTacToe()
