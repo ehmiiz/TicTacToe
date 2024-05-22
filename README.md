@@ -1,5 +1,7 @@
 # TicTacToe
 
+![](demo.gif)
+
 ## Installation
 
 ```sh
